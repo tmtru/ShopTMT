@@ -1,0 +1,75 @@
+.custom-navbar .text-custom{
+    color: #e0e0e0 !important;
+    font-weight: 400;
+}
+.custom-navbar .text-custom:hover {
+    color: #bebbbb !important;
+    font-weight: 450;
+}
+.nav-bar{
+    background: linear-gradient(to bottom, rgba(44, 44, 44, 0.9) 0%, rgba(255, 255, 255, 0) 100%);
+    position: relative;
+    z-index: 10;
+    font-size: 18px;
+    color: white;
+}
+.logo {
+    font-size: 30px;
+    margin-left: 20px;
+    color: #2261c0;
+    font-weight: 500;
+    width: 50px;
+}
+.logo img{
+    width: 100%;
+    border-radius: 100%;
+    border: 1px solid #4271b6;
+
+}
+.form {
+
+    position: relative;
+    border: #9ca3af;
+}
+
+.form .fa-search {
+    position: absolute;
+    top: 15px;
+    left: 20px;
+    color: #9ca3af;
+}
+
+.form span {
+    position: absolute;
+    right: 17px;
+    top: 13px;
+    padding: 2px;
+    border-left: 1px solid #d1d5db;
+}
+
+.left-pan {
+    padding-left: 7px;
+}
+
+.left-pan i {
+
+    padding-left: 10px;
+}
+
+.form-input {
+    height: 45px;
+    text-indent: 33px;
+    border-radius: 10px;
+    width: 300px;
+}
+
+.form-input:focus {
+    box-shadow: none;
+    border: 1px solid #4271b6;
+}
+.active-link{
+    color: black;
+    font-weight: bold;
+    font-size: 19px;
+    border-bottom: 2px solid black;
+}

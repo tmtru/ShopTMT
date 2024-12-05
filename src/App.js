@@ -1,23 +1,20 @@
 import logo from './logo.svg';
 import './App.css';
-
+import NavScroll from './components/Navigation/Navigation';
+import HeroSection from './components/HeroSection/HeroSection';
+import NewArrivals from './components/Sections/NewArrivals';
+import Category from './components/Sections/Categories/Category';
+import content from './data/content.json'
+import Footer from './components/Footer/Footer';
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <HeroSection />
+      <div className="new-arrivals">
+        <NewArrivals />
+      </div>
+      {content?.pages?.shop?.sections && content?.pages?.shop?.sections?.map((item, index) => <Category key={item?.title + index} {...item} />)}
+      <Footer content={content?.footer} />
     </div>
   );
 }

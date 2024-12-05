@@ -1,0 +1,9 @@
+.card-item:hover {
+    scale: 1.025;
+    transition: ease-out 0.5s;
+    z-index: 10;
+
+}
+.card-main img{
+    object-fit: cover;
+}

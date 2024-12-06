@@ -1,0 +1,15 @@
+.button-img{
+    padding: 0;
+    width: 50px;
+
+}
+.button-img img{
+    aspect-ratio: 6/6;
+    object-fit: cover;
+}
+.thumbnail img{
+    width: 100%;
+        object-fit: cover;
+        object-position: 35%;
+        aspect-ratio: 6/9;
+}

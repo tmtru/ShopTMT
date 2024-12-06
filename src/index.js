@@ -6,14 +6,18 @@ import reportWebVitals from './reportWebVitals';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import { RouterProvider } from 'react-router-dom';
 import { route } from './routes';
+import { Provider } from 'react-redux';
+import { store } from './redux/store';
 import NavScroll from './components/Navigation/Navigation';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <RouterProvider router={route}>
-      {/* <App /> */}
-    </RouterProvider>
+    <Provider store={store}>
+      <RouterProvider router={route}>
+        <App />
+      </RouterProvider>
+    </Provider>
 
   </React.StrictMode>
 );

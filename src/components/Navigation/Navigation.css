@@ -1,5 +1,5 @@
 .custom-navbar .text-custom{
-    color: #e0e0e0 !important;
+    color: #504d4d !important;
     font-weight: 400;
 }
 .custom-navbar .text-custom:hover {
@@ -7,7 +7,7 @@
     font-weight: 450;
 }
 .nav-bar{
-    background: linear-gradient(to bottom, rgba(44, 44, 44, 0.9) 0%, rgba(255, 255, 255, 0) 100%);
+    background: rgba(206, 206, 206, 0.5);
     position: relative;
     z-index: 10;
     font-size: 18px;

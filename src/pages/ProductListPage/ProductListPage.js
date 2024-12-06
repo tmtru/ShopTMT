@@ -1,56 +1,238 @@
-import React from 'react'
-import { useEffect, useMemo, useState } from 'react'
-import NavScroll from '../../components/Navigation/Navigation'
-import FilterIcon from '../../components/common/FilterIcon'
-import Category from '../../components/Sections/Categories/Category'
-import content from '../../data/content.json'
+// import React, { useEffect, useMemo, useState } from 'react';
+// import FilterIcon from '../../components/common/FilterIcon';
+// import content from '../../data/content.json';
+// import Categories from '../../components/Filters/Categories';
+// import PriceFilter from '../../components/Filters/PriceFilter';
+// import ColorsFilter from '../../components/Filters/ColorsFilter';
+// import SizeFilter from '../../components/Filters/SizeFilter';
+// import ProductCard from './ProductCard';
+// import './ProductList.css'
+
+
+// const categories = content?.categories;
+
+// // destructuring
+// const ProductListPage = ({ categoryType }) => {
+
+//     const [products, setProducts] = useState([]);
+//     const [filters, setFilters] = useState({
+//         category: [],
+//         color: [],
+//         price: [0, 500],
+//         size: []
+//     });
+//     useEffect(() => {
+//         setFilters({
+//             category: [],
+//             color: [],
+//             price: [0, 500],
+//             size: []
+//         });
+//     }, [categoryType])
+
+
+//     const categoryContent = useMemo(() => {
+//         return categories?.find((category) => category.code === categoryType);
+//     }, [categoryType]);
+
+//     const productListItems = useMemo(() => {
+//         return content?.products?.filter(
+//             (product) => product?.category_id === categoryContent?.id
+//         );
+//     }, [categoryContent]);
+//     const filteredProducts = useMemo(() => {
+//         return productListItems?.filter((product) => {
+//             // Kiểm tra danh mục
+//             const categoryMatch =
+//                 filters.category.length === 0 ||
+//                 filters.category.includes(product.type_id.toString());
+//             console.log(categoryMatch);
+
+//             // Kiểm tra màu sắc
+//             const colorMatch =
+//                 filters.color.length === 0 ||
+//                 filters.color.includes(product.color);
+
+//             // Kiểm tra kích thước
+//             const sizeMatch =
+//                 filters.size.length === 0 ||
+//                 filters.size.includes(product.size);
+
+//             // Kiểm tra giá
+//             const priceMatch =
+//                 product.price >= filters.price[0] &&
+//                 product.price <= filters.price[1];
+
+//             return categoryMatch;
+//         });
+//     }, [productListItems, filters]);
+
+
+
+
+//     return (
+//         <div className="container mt-4 product-list">
+//             <div className="row">
+//                 {/* Sidebar */}
+//                 <div className="col-md-3">
+//                     <div className="card">
+//                         <div className="card-body">
+//                             <div className="d-flex justify-content-between align-items-center">
+//                                 <h5 className="card-title text-secondary">Filter</h5>
+//                                 <FilterIcon />
+//                             </div>
+//                             <hr />
+//                             {/* Categories */}
+//                             <div>
+//                                 <h6 className="text-dark mt-4">Categories</h6>
+//                                 <Categories
+//                                     types={categoryContent?.types}
+//                                     onChange={(selectedCategories) =>
+//                                         setFilters(prev => ({ ...prev, category: selectedCategories }))
+//                                     }
+//                                 />
+
+//                                 <hr />
+//                             </div>
+//                             {/* Price */}
+//                             <PriceFilter />
+//                             <hr />
+//                             {/* Colors */}
+//                             <ColorsFilter colors={categoryContent?.meta_data?.colors} />
+//                             <hr />
+//                             {/* Sizes */}
+//                             <SizeFilter sizes={categoryContent?.meta_data?.sizes} />
+//                         </div>
+//                     </div>
+//                 </div>
+
+//                 {/* Main content */}
+//                 <div className="col-md-9">
+//                     {/* <h4 className="text-dark">{category?.description}</h4>  */}
+//                     <div className="row mt-4">
+//                         {filteredProducts?.map((item, index) => (
+//                             <div className="col-lg-4 col-md-6 mb-4" key={item?.id + '_' + index}>
+//                                 <ProductCard {...item} />
+//                             </div>
+//                         ))}
+//                     </div>
+//                 </div>
+//             </div>
+//         </div>
+//     );
+// };
+
+// export default ProductListPage;
+
+
+import React, { useEffect, useMemo } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { setFilters, setProducts } from '../../redux/slices/productListSlice';
+import FilterIcon from '../../components/common/FilterIcon';
+import content from '../../data/content.json';
+import Categories from '../../components/Filters/Categories';
+import PriceFilter from '../../components/Filters/PriceFilter';
+import ColorsFilter from '../../components/Filters/ColorsFilter';
+import SizeFilter from '../../components/Filters/SizeFilter';
+import ProductCard from './ProductCard';
+import './ProductList.css';
+
 const categories = content?.categories;
-const ProductListPage = (categoryType) => {
-    
 
-    // const categoryContent = useMemo(() => {
-    //     return categories?.find((category) => category.code === categoryType);
-    // }, [categoryType]);
+const ProductListPage = ({ categoryType }) => {
+    const dispatch = useDispatch();
+
+    // Lấy dữ liệu sản phẩm và bộ lọc từ Redux store
+    const { products, filters } = useSelector((state) => state.products);
+
+    const categoryContent = useMemo(() => {
+        return categories?.find((category) => category.code === categoryType);
+    }, [categoryType]);
+
+    const productListItems = useMemo(() => {
+        return content?.products?.filter(
+            (product) => product?.category_id === categoryContent?.id
+        );
+    }, [categoryContent]);
+
+    const filteredProducts = useMemo(() => {
+        return productListItems?.filter((product) => {
+            const categoryMatch =
+                filters.category.length === 0 ||
+                filters.category.includes(product.type_id.toString());
+
+            const colorMatch =
+                filters.color.length === 0 || filters.color.includes(product.color);
+
+            const sizeMatch =
+                filters.size.length === 0 || filters.size.includes(product.size);
+
+            const priceMatch =
+                product.price >= filters.price[0] && product.price <= filters.price[1];
+
+            return categoryMatch ;
+        });
+    }, [productListItems, filters]);
+
+    useEffect(() => {
+        dispatch(setProducts(productListItems));
+    }, [dispatch, productListItems]);
+
+    useEffect(() => {
+        dispatch(setFilters({
+            category: [],
+            color: [],
+            price: [0, 500],
+            size: []
+        }));
+    }, [categoryType, dispatch]);
+
     return (
-        <div>
-            <div className='flex'>
-                <div className='w-[20%] p-[10px] border rounded-lg m-[20px]'>
-                    {/* Filters */}
-                    <div className='flex justify-between '>
-                        <p className='text-[16px] text-gray-600'>Filter</p>
-                        <FilterIcon />
-
+        <div className="container mt-4 product-list">
+            <div className="row">
+                {/* Sidebar */}
+                <div className="col-md-3">
+                    <div className="card">
+                        <div className="card-body">
+                            <div className="d-flex justify-content-between align-items-center">
+                                <h5 className="card-title text-secondary">Filter</h5>
+                                <FilterIcon />
+                            </div>
+                            <hr />
+                            {/* Categories */}
+                            <div>
+                                <h6 className="text-dark mt-4">Categories</h6>
+                                <Categories
+                                    types={categoryContent?.types}
+                                />
+                                <hr />
+                            </div>
+                            {/* Price */}
+                            <PriceFilter />
+                            <hr />
+                            {/* Colors */}
+                            <ColorsFilter colors={categoryContent?.meta_data?.colors} />
+                            <hr />
+                            {/* Sizes */}
+                            <SizeFilter sizes={categoryContent?.meta_data?.sizes} />
+                        </div>
                     </div>
-                    <div>
-                        {/* Product types */}
-                        <p className='text-[16px] text-black mt-5'>Categories</p>
-                        {/* <Categories types={categoryContent?.types} /> */}
-                        <hr></hr>
-                    </div>
-                    {/* Price */}
-                    {/* <PriceFilter /> */}
-                    <hr></hr>
-                    {/* Colors */}
-                    {/* <ColorsFilter colors={categoryContent?.meta_data?.colors} /> */}
-                    <hr></hr>
-                    {/* Sizes */}
-                    {/* <SizeFilter sizes={categoryContent?.meta_data?.sizes} /> */}
                 </div>
 
-                <div className='p-[15px]'>
-                    <p className='text-black text-lg'>{category?.description}</p>
-                    {/* Products */}
-                    {/* <div className='pt-4 grid grid-cols-1 lg:grid-cols-3 md:grid-cols-2 gap-8 px-2'>
-                        {products?.map((item, index) => (
-                            <ProductCard key={item?.id + "_" + index} {...item} title={item?.name} />
+                {/* Main content */}
+                <div className="col-md-9">
+                    <div className="row mt-4">
+                        {filteredProducts?.map((item, index) => (
+                            <div className="col-lg-4 col-md-6 mb-4" key={item?.id + '_' + index}>
+                                <ProductCard {...item} />
+                            </div>
                         ))}
-                    </div> */}
-
+                    </div>
                 </div>
-
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default ProductListPage
+export default ProductListPage;
+
